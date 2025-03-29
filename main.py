@@ -7,7 +7,7 @@ conn = mysql.connector.connect(
     host="localhost",
     user="root",  
     password="IPTFINALSPROJ",  
-    database="my_database"
+    database="my_database",
 )
 cursor = conn.cursor()
 
@@ -28,12 +28,16 @@ def open_management_system():
     root.withdraw()  # Hide login window
     management_window = tk.Toplevel()
     management_window.title("Lakers Management System")
-    management_window.geometry("400x400")
-
-    tk.Button(management_window, text="Add Player", command=add_player).pack()
-    tk.Button(management_window, text="Search Player", command=search_player).pack()
-    tk.Button(management_window, text="Delete Player", command=delete_player).pack()
-    tk.Button(management_window, text="Update Player", command=update_player).pack()
+    management_window.geometry("500x400")
+    
+    frame = tk.Frame(management_window, padx=20, pady=20)
+    frame.pack(expand=True)
+    
+    tk.Label(frame, text="Player Management", font=("Helvetica", 16, "bold")).pack(pady=10)
+    tk.Button(frame, text="Add Player", command=add_player, width=20).pack(pady=5)
+    tk.Button(frame, text="Search Player", command=search_player, width=20).pack(pady=5)
+    tk.Button(frame, text="Delete Player", command=delete_player, width=20).pack(pady=5)
+    tk.Button(frame, text="Update Player", command=update_player, width=20).pack(pady=5)
 
 # Add Player
 def add_player():
@@ -51,23 +55,28 @@ def add_player():
 
     add_window = tk.Toplevel()
     add_window.title("Add Player")
-    tk.Label(add_window, text="Jersey Number:").pack()
-    entry_jersey = tk.Entry(add_window)
-    entry_jersey.pack()
+    add_window.geometry("400x300")
+    
+    frame = tk.Frame(add_window, padx=20, pady=20)
+    frame.pack(expand=True)
+    
+    tk.Label(frame, text="Jersey Number:").grid(row=0, column=0, padx=5, pady=5, sticky="w")
+    entry_jersey = tk.Entry(frame)
+    entry_jersey.grid(row=0, column=1, padx=5, pady=5)
 
-    tk.Label(add_window, text="Name:").pack()
-    entry_name = tk.Entry(add_window)
-    entry_name.pack()
+    tk.Label(frame, text="Name:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+    entry_name = tk.Entry(frame)
+    entry_name.grid(row=1, column=1, padx=5, pady=5)
 
-    tk.Label(add_window, text="College:").pack()
-    entry_college = tk.Entry(add_window)
-    entry_college.pack()
+    tk.Label(frame, text="College:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
+    entry_college = tk.Entry(frame)
+    entry_college.grid(row=2, column=1, padx=5, pady=5)
 
-    tk.Label(add_window, text="Salary:").pack()
-    entry_salary = tk.Entry(add_window)
-    entry_salary.pack()
+    tk.Label(frame, text="Salary:").grid(row=3, column=0, padx=5, pady=5, sticky="w")
+    entry_salary = tk.Entry(frame)
+    entry_salary.grid(row=3, column=1, padx=5, pady=5)
 
-    tk.Button(add_window, text="Save", command=save).pack()
+    tk.Button(frame, text="Save", command=save).grid(row=4, columnspan=2, pady=10)
 
 # Search Player
 def search_player():
@@ -82,11 +91,17 @@ def search_player():
 
     search_window = tk.Toplevel()
     search_window.title("Search Player")
-    tk.Label(search_window, text="Enter Jersey Number:").pack()
-    entry_jersey = tk.Entry(search_window)
-    entry_jersey.pack()
+    search_window.geometry("400x200")
+    
+    frame = tk.Frame(search_window, padx=20, pady=20)
+    frame.pack(expand=True)
+    
+    tk.Label(frame, text="Search Player", font=("Helvetica", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
+    tk.Label(frame, text="Enter Jersey Number:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+    entry_jersey = tk.Entry(frame)
+    entry_jersey.grid(row=1, column=1, padx=5, pady=5)
 
-    tk.Button(search_window, text="Search", command=find).pack()
+    tk.Button(frame, text="Search", command=find, width=15).grid(row=2, columnspan=2, pady=10)
 
 # Delete Player
 def delete_player():
@@ -99,18 +114,23 @@ def delete_player():
 
     delete_window = tk.Toplevel()
     delete_window.title("Delete Player")
-    tk.Label(delete_window, text="Enter Jersey Number:").pack()
-    entry_jersey = tk.Entry(delete_window)
-    entry_jersey.pack()
+    delete_window.geometry("400x200")
+    
+    frame = tk.Frame(delete_window, padx=20, pady=20)
+    frame.pack(expand=True)
+    
+    tk.Label(frame, text="Delete Player", font=("Helvetica", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
+    tk.Label(frame, text="Enter Jersey Number:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+    entry_jersey = tk.Entry(frame)
+    entry_jersey.grid(row=1, column=1, padx=5, pady=5)
 
-    tk.Button(delete_window, text="Delete", command=remove).pack()
+    tk.Button(frame, text="Delete", command=remove, width=15).grid(row=2, columnspan=2, pady=10)
 
 # Update Player
 def update_player():
     def save():
         jersey = entry_jersey.get()
         salary = entry_salary.get()
-
         cursor.execute("UPDATE players SET salary = %s WHERE jersey_number = %s", (salary, jersey))
         conn.commit()
         messagebox.showinfo("Success", "Player salary updated")
@@ -118,30 +138,41 @@ def update_player():
 
     update_window = tk.Toplevel()
     update_window.title("Update Player")
-    tk.Label(update_window, text="Enter Jersey Number:").pack()
-    entry_jersey = tk.Entry(update_window)
-    entry_jersey.pack()
+    update_window.geometry("400x250")
+    
+    frame = tk.Frame(update_window, padx=20, pady=20)
+    frame.pack(expand=True)
+    
+    tk.Label(frame, text="Update Player", font=("Helvetica", 14, "bold")).grid(row=0, column=0, columnspan=2, pady=10)
+    tk.Label(frame, text="Enter Jersey Number:").grid(row=1, column=0, padx=5, pady=5, sticky="w")
+    entry_jersey = tk.Entry(frame)
+    entry_jersey.grid(row=1, column=1, padx=5, pady=5)
 
-    tk.Label(update_window, text="New Salary:").pack()
-    entry_salary = tk.Entry(update_window)
-    entry_salary.pack()
+    tk.Label(frame, text="New Salary:").grid(row=2, column=0, padx=5, pady=5, sticky="w")
+    entry_salary = tk.Entry(frame)
+    entry_salary.grid(row=2, column=1, padx=5, pady=5)
 
-    tk.Button(update_window, text="Save", command=save).pack()
+    tk.Button(frame, text="Save", command=save, width=15).grid(row=3, columnspan=2, pady=10)
+
 
 # Tkinter GUI Setup
 root = tk.Tk()
 root.title("Login System")
-root.geometry("300x200")
+root.geometry("350x250")
 
-tk.Label(root, text="Username:").pack()
-entry_username = tk.Entry(root)
+frame = tk.Frame(root, padx=20, pady=20)
+frame.pack(expand=True)
+
+tk.Label(frame, text="Login", font=("Helvetica", 16, "bold")).pack(pady=10)
+tk.Label(frame, text="Username:").pack(anchor="w")
+entry_username = tk.Entry(frame, width=30)
 entry_username.pack()
 
-tk.Label(root, text="Password:").pack()
-entry_password = tk.Entry(root, show="*")
+tk.Label(frame, text="Password:").pack(anchor="w")
+entry_password = tk.Entry(frame, show="*", width=30)
 entry_password.pack()
 
-tk.Button(root, text="Login", command=login).pack()
+tk.Button(frame, text="Login", command=login, width=20).pack(pady=20)
 
 root.mainloop()
 
